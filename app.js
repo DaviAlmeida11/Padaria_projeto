@@ -36,6 +36,22 @@ app.use((request, response, next) => {
 })
 
 
+// importaçãod das rotas da mesa 
+const mesaRoute = require('./routes/mesa')
+
+
+
+// configuração das rotas 
+app.use('/v1/padaria/mesa', mesaRoute)
+
+
+
+
+
+
+
+
+
 app.listen(PORT, function(){
   console.log('API aguardando resposta ;)')
 })
