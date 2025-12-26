@@ -19,21 +19,21 @@ router.use((request, response, next ) => {
 
 // ENDPOINTS DA TABELA Usuario
 
-const controllerMesa = require('../controller/controller_mesa/controller_mesa')
+const controllerCategoria = require('../controller/controller_categoria/controller_categoria')
 
 router.get('/', cors(), async function (request, response) {
-    let mesa = await controllerMesa.listarMesa()
-    response.status(mesa.status_code)
-    response.json(mesa)    
+    let categoria = await controllerCategoria.listarCategoria()
+    response.status(categoria.status_code)
+    response.json(categoria)    
 })
 
 
 router.get('/:id', cors(), async function (request, response){
-    let idMesa = request.params.id
+    let idCategoria = request.params.id
 
-    let mesa = await controllerMesa.listarMesaId(idMesa)
-    response.status(mesa.status_code)
-    response.json(mesa)
+    let categoria = await controllerMesa.listarMesaId(idCategoria)
+    response.status(categoria.status_code)
+    response.json(categoria)
 
 
 })
@@ -44,31 +44,31 @@ router.post('/', cors(), bodyParserJson, async function (request, response) {
     let dadosBody = request.body
     let contentType = request.headers['content-type']
 
-    let mesa = await controllerMesa.inserirMesa(dadosBody, contentType)
+    let categoria = await controllerCategoria.inserirCategoria(dadosBody, contentType)
 
-    response.status(mesa.status_code)
-    response.json(mesa)
+    response.status(categoria.status_code)
+    response.json(categoria)
 })
 
 router.put('/:id', cors(), bodyParserJson, async function (request, response) {
     let dadosBody = request.body
 
-    let idMesa = request.params.id
+    let idCategoria = request.params.id
 
     let contentType = request.headers['content-type']
     
-    let mesa = await controllerMesa.atualizarMesa(dadosBody, idMesa, contentType)
+    let categoria = await controllerCategoria.atualizarCategoria(dadosBody, idCategoria, contentType)
 
-    response.status(mesa.status_code)
-    response.json(mesa)
+    response.status(categoria.status_code)
+    response.json(categoria)
 })
 
 router.delete('/:id', cors(), async function (request, response) {
-    let idmesa = request.params.id
+    let idCategoria = request.params.id
 
-    let mesa = await controllerMesa.excluirMesa(idmesa)
-    response.status(mesa.status_code)
-    response.json(mesa)
+    let categoria = await controllerCategoria.excluirCategoria(idCategoria)
+    response.status(categoria.status_code)
+    response.json(categoria)
 
 })
 

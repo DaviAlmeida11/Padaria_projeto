@@ -1,6 +1,6 @@
 /*********************************************************************************************
  * Objetivo: Arquivo responsável pela realização do CRUD de ator no Banco de Dados MySQL
- * Data: 24/12/2025
+ * Data: 25/12/2025
  * Autor: Davi de Almeida
  * Versão: 1.0
  **********************************************************************************************/
@@ -10,9 +10,9 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const getSelectAllTable = async function () {
+const getSelectAllCategory = async function () {
     try {
-        let sql = 'select * from tb_mesa order by id_mesa desc'
+        let sql = 'select * from tb_categoria order by id_categoria desc'
 
 
         let result = await prisma.$queryRawUnsafe(sql)
@@ -31,9 +31,9 @@ const getSelectAllTable = async function () {
 }
 
 
-const getSelectMesaById = async function (id) {
+const getSelectCategoryById = async function (id) {
     try {
-        let sql = `select * from tb_mesa where id_mesa = ${id}`
+        let sql = `select * from tb_categoria where id_categoria = ${id}`
 
         let result = await prisma.$queryRawUnsafe(sql)
         
@@ -50,7 +50,7 @@ const getSelectMesaById = async function (id) {
 
 const getSelectLastId = async function () {
     try {
-        let sql = 'select id_mesa from tb_mesa order by id_mesa desc limit 1 '
+        let sql = 'select id_categoria from tb_categoria order by id_categoria desc limit 1 '
 
         let result = await prisma.$queryRawUnsafe(sql)
         if (result) {
@@ -65,11 +65,11 @@ const getSelectLastId = async function () {
 }
 
 
-const setInsertMesa = async function (mesa) {
+const setInsertCategory = async function (categoria) {
     try {
 
-         let sql = `insert into tb_mesa(numero) 
-        values('${mesa.numero}')`
+         let sql = `insert into tb_categoria(nome) 
+        values('${categoria.nome}')`
         
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -87,14 +87,14 @@ const setInsertMesa = async function (mesa) {
 
 
 
-const setUpdateMesa = async function (mesa) {
+const setUpdateCategory  = async function (categoria) {
     try{
 
     
-         let sql = `update tb_mesa
+         let sql = `update tb_categoria
          set
-         numero = '${mesa.numero}'
-         where id_masa = '${mesa.id}'`
+         nome = '${categoria.nome}'
+         where id_categoria = '${categoria.id}'`
 
         let result = await prisma.$executeRawUnsafe(sql)
         if (result) {
@@ -108,9 +108,9 @@ const setUpdateMesa = async function (mesa) {
     }
 }
 
-const setDeleteMesa = async function (id) {
+const setDeleteCategory = async function (id) {
     try {
-        let sql = `delete from tb_mesa where id_mesa = ${id}`
+        let sql = `delete from tb_categoria where id_categoria = ${id}`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -127,10 +127,10 @@ const setDeleteMesa = async function (id) {
 
 
 module.exports = {
-    getSelectAllTable ,
-    getSelectMesaById ,
+   getSelectAllCategory ,
+    getSelectCategoryById ,
     getSelectLastId,
-    setInsertMesa,
-    setUpdateMesa ,
-    setDeleteMesa
+    setInsertCategory ,
+    setUpdateCategory  ,
+    setDeleteCategory 
 }

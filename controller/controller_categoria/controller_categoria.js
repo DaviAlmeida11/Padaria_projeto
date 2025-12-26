@@ -6,27 +6,27 @@
  **********************************************************************************************/
 
 //Import do arquivo DAO para manipular o CRUD no BD
-const mesaDAO = require('../../model/DAO/mesa.js')
+const categoriaDAO = require('../../model/DAO/categoria.js')
 
 
 const MESSAGE_DEFAULT = require("../modulo/configMessage.js")
 
 
 
-const listarMesa = async function () {
+const listarCategoria = async function () {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
         //Chama a função do DAO para retornar a lista de mesas
-        let result = await mesaDAO.getSelectAllTable()
+        let result = await categoriaDAO.getSelectAllCategory()
 
         if (result) {
             if (result.length > 0) {
                 MESSAGE.HEADER.status = MESSAGE.SUCCESS_REQUEST.status
                 MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_REQUEST.status_code
-                MESSAGE.HEADER.response.total_mesa = result.length
-                MESSAGE.HEADER.response.mesa = result
+                MESSAGE.HEADER.response.total_categoria = result.length
+                MESSAGE.HEADER.response.categoria = result
 
                 return MESSAGE.HEADER //200
             } else {
@@ -41,19 +41,19 @@ const listarMesa = async function () {
 }
 
 //  Listar os comentarios porIDiario 
-const listarMesaId = async function (id) {
+const listarCategoriaId = async function (id) {
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
         if (id != '' && id != null && id != undefined && !isNaN(id) && id > 0) {
-            let result = await mesaDAO.getSelectMesaById(id)
+            let result = await categoriaDAO.getSelectCategoryById(id)
 
             if (result) {
                 if (result.length > 0) {
                     MESSAGE.HEADER.status = MESSAGE.SUCCESS_REQUEST.status
                     MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_REQUEST.status_code
-                    MESSAGE.HEADER.response.mesa
-                    MESSAGE.HEADER.response.mesa = result
+                    MESSAGE.HEADER.response.categoria
+                    MESSAGE.HEADER.response.categoria = result
                     return MESSAGE.HEADER
 
 
@@ -73,7 +73,7 @@ const listarMesaId = async function (id) {
 }
 
 
-const inserirMesa = async function (mesa, contentType) {
+const inserirCategoria = async function (categoria, contentType) {
 
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT));
 
@@ -81,15 +81,15 @@ const inserirMesa = async function (mesa, contentType) {
         if (String(contentType).toUpperCase() === 'APPLICATION/JSON') {
 
 
-            let validacao = await validarDadosMesa(mesa)
+            let validacao = await validarDadosCategoria(categoria)
 
 
             if (!validacao) {
 
-                let result = await mesaDAO.setInsertMesa(mesa)
+                let result = await categoriaDAO.setInsertCategory(categoria)
 
                 if (result) {
-                    let lastIdMesa = await mesaDAO.getSelectLastId();
+                    let lastIdMesa = await categoriaDAO.getSelectLastId();
 
                     if (lastIdMesa) {
 
@@ -98,7 +98,7 @@ const inserirMesa = async function (mesa, contentType) {
                         MESSAGE.HEADER.status = MESSAGE.SUCCESS_CREATED_ITEM.status;
                         MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_CREATED_ITEM.status_code;
                         MESSAGE.HEADER.message = MESSAGE.SUCCESS_CREATED_ITEM.message;
-                        MESSAGE.HEADER.response = mesa
+                        MESSAGE.HEADER.response = categoria
 
                         return MESSAGE.HEADER;
                     } else {
@@ -121,29 +121,29 @@ const inserirMesa = async function (mesa, contentType) {
 }
 
 
-const atualizarMesa = async function (mesa, id, contentType) {
+const atualizarCategoria = async function (categoria, id, contentType) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
         if (String(contentType).toUpperCase() === 'APPLICATION/JSON') {
-            let validarId = await listarMesaId(id)
+            let validarId = await listarCategoriaId(id)
 
             if (validarId.status_code == 200) {
 
-                let validarDados = await validarDadosMesa(mesa)
+                let validarDados = await validarDadosCategoria(categoria)
 
                 if (!validarDados) {
                     //Adicionando o ID no JSON com os dados do ator
                     mesa.id = parseInt(id)
 
-                    let result = await mesaDAO.setUpdateMesa(mesa)
+                    let result = await categoriaDAO.setUpdateCategory(categoria)
 
                     if (result) {
                         MESSAGE.HEADER.status = MESSAGE.SUCCESS_UPDATED_ITEM.status
                         MESSAGE.HEADER.status_code = MESSAGE.SUCCESS_UPDATED_ITEM.status_code
                         MESSAGE.HEADER.message = MESSAGE.SUCCESS_UPDATED_ITEM.message
-                        MESSAGE.HEADER.response = mesa
+                        MESSAGE.HEADER.response = categoria
 
                         return MESSAGE.HEADER //200
                     } else {
@@ -165,17 +165,17 @@ const atualizarMesa = async function (mesa, id, contentType) {
 }
 
 
-const excluirMesa = async function (id) {
+const excluirCategoria = async function (id) {
     //Realizando uma cópia do objeto MESSAGE_DEFAULT, permitindo que as alterações desta função não interfiram em outras funções
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     try {
-        let validarId = await listarMesaId(id)
+        let validarId = await listarCategoriaId(id)
 
         if (validarId.status_code == 200) {
 
 
-            let result = await mesaDAO.setDeleteMesa(id)
+            let result = await categoriaDAO.setDeleteCategory(id)
 
             if (result) {
                 MESSAGE.HEADER.status = MESSAGE.SUCCESS_DELETED_ITEM.status
@@ -195,13 +195,13 @@ const excluirMesa = async function (id) {
 }
 
 
-const validarDadosMesa = function (mesa) {
+const validarDadosCategoria = function (categoria) {
 
     let MESSAGE = JSON.parse(JSON.stringify(MESSAGE_DEFAULT))
 
     // NOME
-    if (mesa.numero == '' || mesa.numero == null || mesa.numero == undefined || mesa.numero == String || mesa.numero.length > 100) {
-        MESSAGE.ERROR_REQUIRED_FIELDS.invalid_field = `Atributo [NUMERO] invalido`
+    if (categoria.nome == '' || categoria.nome == null || categoria.nome == undefined || categoria.nome.length > 20) {
+        MESSAGE.ERROR_REQUIRED_FIELDS.invalid_field = `Atributo [NOME] invalido`
         return MESSAGE.ERROR_REQUIRED_FIELDS //400
 
     }
@@ -212,9 +212,9 @@ const validarDadosMesa = function (mesa) {
 
 
 module.exports = {
-    listarMesa,
-    listarMesaId,
-    inserirMesa,
-    atualizarMesa,
-    excluirMesa,
+    listarCategoria,
+    listarCategoriaId,
+    inserirCategoria,
+    atualizarCategoria,
+    excluirCategoria,
 }

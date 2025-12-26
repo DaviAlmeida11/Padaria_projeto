@@ -11,9 +11,7 @@ CREATE TABLE mesa (
 
 CREATE TABLE categoria (
     id_categodria INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    ordem INT DEFAULT 0,
-    ativo BOOLEAN DEFAULT TRUE
+    nome VARCHAR(100) NOT NULL
 );
 
 
@@ -22,10 +20,9 @@ CREATE TABLE produto (
     id_produto INT AUTO_INCREMENT PRIMARY KEY,
     id_categoria INT NOT NULL,
     nome VARCHAR(150) NOT NULL,
+    img VARCHAR(500) not null,
     descricao TEXT,
     preco DECIMAL(10,2) NOT NULL,
-    ativo BOOLEAN DEFAULT TRUE,
-
     FOREIGN KEY (id_catecoria) REFERENCES categoria(id_categoria)
 );
 

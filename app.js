@@ -37,13 +37,19 @@ app.use((request, response, next) => {
 
 
 // importaçãod das rotas da mesa 
-const mesaRoute = require('./routes/mesa')
+const mesaRoutes = require('./routes/mesa')
 
+const categoriaRoutes = require('./routes/categoria')
+
+const produtoRoutes = require('./routes/produto')
 
 
 // configuração das rotas 
-app.use('/v1/padaria/mesa', mesaRoute)
+app.use('/v1/padaria/mesa', mesaRoutes)
 
+app.use('/v1/padaria/categoria', categoriaRoutes)
+
+app.use('/v1/padaria/produto', produtoRoutes)
 
 
 
