@@ -43,6 +43,8 @@ const categoriaRoutes = require('./routes/categoria')
 
 const produtoRoutes = require('./routes/produto')
 
+const pedidoRoutes = require('./routes/pedido')
+
 
 // configuração das rotas 
 app.use('/v1/padaria/mesa', mesaRoutes)
@@ -51,9 +53,7 @@ app.use('/v1/padaria/categoria', categoriaRoutes)
 
 app.use('/v1/padaria/produto', produtoRoutes)
 
-
-
-
+app.use('/v1/padaria/pedido', pedidoRoutes )
 
 
 
